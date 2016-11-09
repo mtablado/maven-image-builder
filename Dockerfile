@@ -28,3 +28,5 @@ RUN java -version \
 	&& echo JAVA_HOME=$JAVA_HOME
 RUN apt-get update && apt-get -y install maven && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
+# set settings for maven
+COPY settings.xml /root/.m2
