@@ -7,14 +7,16 @@ RUN apt-get install -y software-properties-common python-software-properties
 
 RUN sudo add-apt-repository ppa:openjdk-r/ppa \
 	&& apt-get update \
-	&& apt-get -y install openjdk-8-jdk && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+	&& apt-get -y install openjdk-8-jdk-headless:amd64 && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Debug instructions.
-#RUN which java && ls -lia /usr/bin/java && ls -lia /etc/alternatives/java && ls -lia /usr/lib/jvm/
-#RUN which javac && ls -lia /usr/bin/javac && ls -lia /etc/alternatives/java && ls -lia /usr/lib/jvm/
+RUN ls -lia /usr/lib/jvm/ 
+RUN which java && ls -lia /usr/bin/java && ls -lia /etc/alternatives/java && ls -lia /usr/lib/jvm/ 
+RUN which javac && ls -lia /usr/bin/javac && ls -lia /etc/alternatives/java && ls -lia /usr/lib/jvm/ 
 
 # Set JAVA_HOME environment variable to new installed openjdk-8-jdk.
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+#ENV JAVA_HOME=/usr/lib/jvm/openjdk-8-jdk-amd64
 
 # Update alternatives to use java 8.
 RUN update-alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java" 1 && \
@@ -26,5 +28,13 @@ RUN java -version \
 	&& javac -version \
 	&& echo PATH=$PATH \
 	&& echo JAVA_HOME=$JAVA_HOME
+
+# It is convenient to delete openjdk-7-jdk for a better image size. 
+RUN echo y | apt-get purge --auto-remove openjdk-7-jre-headless:amd64
+
+# Debug instructions.
+#RUN which java && ls -lia /usr/bin/java && ls -lia /etc/alternatives/java && ls -lia /usr/lib/jvm/ && ls /
+#RUN which javac && ls -lia /usr/bin/javac && ls -lia /etc/alternatives/java && ls -lia /usr/lib/jvm/ && ls /
+
 RUN apt-get update && apt-get -y install maven && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
