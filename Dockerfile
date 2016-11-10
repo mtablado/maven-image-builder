@@ -38,6 +38,7 @@ RUN echo y | apt-get purge --auto-remove openjdk-7-jre-headless:amd64
 
 RUN apt-get update && apt-get -y install maven && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
+RUN mkdir -p /home/jenkins/.m2/ && chown jenkins:jenkins /home/jenkins/.m2/
 # Jenkins slave must save dependencies instead of download them at every mvn process.
 VOLUME ["/home/jenkins/.m2/"]
 
