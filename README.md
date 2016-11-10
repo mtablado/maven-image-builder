@@ -12,10 +12,18 @@ So, your docker container must declare a volume like `docker run -d -v /tmp/.m2:
 
 ## Jenkins Docker Plugin configuration
 
-The following parameters must be configured:
+The following parameters must be configured at Docker Template section inside the Cloud one:
 
-##### TODO Tasks
-- [ ] Template
-- [ ] Docker command
-- [ ] Docker plugin with slaves reference
-- [ ] Etc.
+- [ ] Docker image: `docker-virtual.art.local/maven-image-builder` 
+- [ ] Docker command: `/jenkins-slave-startup.sh` This script is inherited from base `tehranian/dind-jenkins-slave`image. If you leave it empty, the plugin will run SSH command.
+- [ ] Volumes: `/tmp/.m2:/home/jenkins/.m2`. You may want to modify the host location.
+- [ ] Run container privileged `true` To allow Docker in Docker.
+- [ ] Extra Hosts: `docker-virtual.art.local:192.168.99.100` This example is using a private Docker Registry, leave it blank if you don't need it.
+- [ ] Instance Capacity: >=1 Take in mind that this builder is not exactly fast and you would like to compile multiple projects simultaneously.
+- [ ] Remote Filing System Root: `/home/jenkins`
+- [ ] Labels: `maven-image-builder` To reference this slave at jenkinsfile.
+- [ ] Launch method: `Docker SSH computer launcher`
+	- [ ] Credentials: `jenkins/jenkins`
+- [ ] Remote FS Root Mapping: `/var/jenkins_home`
+
+The rest of them can be the default values.
