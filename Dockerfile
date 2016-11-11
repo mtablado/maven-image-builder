@@ -42,5 +42,7 @@ RUN mkdir -p /home/jenkins/.m2/ && chown jenkins:jenkins /home/jenkins/.m2/
 # Jenkins slave must save dependencies instead of download them at every mvn process.
 VOLUME ["/home/jenkins/.m2/"]
 
+RUN chown -R jenkins:jenkins /home/jenkins/.m2/
+
 # set settings for maven
 COPY settings.xml /home/jenkins/.m2/
