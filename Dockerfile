@@ -7,7 +7,7 @@ RUN apt-get install -y software-properties-common python-software-properties
 
 RUN sudo add-apt-repository ppa:openjdk-r/ppa \
 	&& apt-get update \
-	&& apt-get -y install openjdk-8-jdk:amd64 && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+	&& apt-get -y install openjdk-8-jdk && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Debug instructions.
 RUN ls -lia /usr/lib/jvm/ 
